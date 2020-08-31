@@ -4,13 +4,13 @@ function Alien:init(x, y)
     self.gridX = x
     self.gridY = y
 
-    self.width = 25
+    self.width = 20
     self.height = 15
 
     self.alive = true
 
     self.direction = 'right'
-    self.down = false
+    self.goingDown = false
     self.steps = 0
 
     self:updateRenderPos(self.gridX, self.gridY)
@@ -22,30 +22,31 @@ function Alien:updateRenderPos(x, y)
 end
 
 function Alien:update(dt)
-    if self.down then
+    local numSteps = 1
+    if self.goingDown then
         self.gridY = self.gridY + 1 * dt
         self:updateRenderPos(self.gridX, self.gridY)
         self.steps = self.steps + 1 * dt
         if self.steps >= 1 then
-            self.down = false
+            self.goingDown = false
             self.steps = 0            
         end
     elseif self.direction == 'right' then
         self.gridX = self.gridX + 1 * dt
         self:updateRenderPos(self.gridX, self.gridY)
         self.steps = self.steps + 1 * dt
-        if self.steps >= 5 then
+        if self.steps >= numSteps then
             self.direction = 'left'
-            self.down = true
+            self.goingDown = true
             self.steps = 0
         end
     elseif self.direction == 'left' then
         self.gridX = self.gridX - 1 * dt
         self:updateRenderPos(self.gridX, self.gridY)
         self.steps = self.steps + 1 * dt
-        if self.steps >= 5 then
+        if self.steps >= numSteps then
             self.direction = 'right'
-            self.down = true
+            self.goingDown = true
             self.steps = 0
         end          
     end

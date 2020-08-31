@@ -25,5 +25,9 @@ end
 function Tank:render()
     love.graphics.setColor(0, 255, 0, 255)
     love.graphics.rectangle('fill', self.x + self.width/2 - self.height/10, self.y -4, self.height/5,self.width/5)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)   
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+
+    --Display the amount of lifes the tank has
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.printf(tostring(self.lives), 0, VIRTUAL_HEIGHT - 30, 20, 'center')
 end
