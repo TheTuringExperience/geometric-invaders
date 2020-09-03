@@ -2,11 +2,8 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
     self.tank = Tank{}
-
-    --Since the bullet behaviour is super simple I'm just gonna putt it here
-    self.bullet = nil   
-
     self.alienSquad = AlienSquad()
+
 end
 
 function PlayState:update(dt)
@@ -14,40 +11,36 @@ function PlayState:update(dt)
     self.alienSquad:update(dt)
     Timer.update(dt)
 
-    -- Player shooting
-    if love.keyboard.wasPressed('space') and (self.bullet == nil) then
-        self.bullet = Bullet(self.tank.x + (self.tank.width/2), self.tank.y, "UP")
-    end
-
-    --Update the player's bullet
-    if not (self.bullet == nil) then
-        if self.bullet:update(dt) then
-            self.bullet = nil
-        end        
-    end
-
     Timer.every(1, function () self.alienSquad:shoot() end)
     
     --check for collisions between aliens and the bullet
-    if not (self.bullet == nil) then
+    if not (self.tank.bullet == nil) then
         --If the bullet collided against a alien delete it
-        if self.alienSquad:checkCollision(self.bullet) then
-            self.bullet = nil
+        if self.alienSquad:checkCollision(self.tank.bullet) then
+            self.tank.bullet = nil
+        end
+    end
+
+    --check for collisions between player and the alien's bullets
+    if not (self.alienSquad.bullets == nil) then
+        --If the bullet collided against a alien delete it
+        for index, bullet in pairs(self.alienSquad.bullets) do
+            if self.tank:checkCollision(bullet) then
+                self.tank:takeDamage(1)
+                -- After the bullet collides with the player delete it
+                table.remove(self.alienSquad.bullets, index)
+            end
         end
     end
 
     --Check if all the aliens are dead to end the game
-    if self.alienSquad.aliensAlive == 0 then
+    if (self.alienSquad.aliensAlive == 0) or (self.tank.lives <=0) then
         gStateMachine:change("gameOver")
     end
 end
 
 function PlayState:render()
-    self.tank:render()
-    --Render the bullet
-    if not (self.bullet == nil) then
-        self.bullet:render()
-    end
+    self.tank:render()    
 
     self.alienSquad:render()
 end

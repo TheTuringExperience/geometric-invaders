@@ -18,7 +18,7 @@ function Bullet:update(dt)
     end
 
     --Check if the bullet went out of the screen
-    if self.y + self.height < 0 then
+    if (self.y + self.height < 0) or (self.y >= VIRTUAL_HEIGHT) then
         return true
     end
 end

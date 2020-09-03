@@ -29,7 +29,10 @@ function AlienSquad:update(dt)
     --If the bullets table is not empty, update the position of the bullets
     if table.getn(self.bullets) >= 1 then
         for index, bullet in pairs(self.bullets) do
-            bullet:update(dt)
+            --The update function of the bullet returns true if the bullet goes of screen
+            if bullet:update(dt) then
+                table.remove(self.bullets, index)
+            end
         end
     end
 end
