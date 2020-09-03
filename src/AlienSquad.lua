@@ -59,23 +59,10 @@ function AlienSquad:shoot()
     if table.getn(self.bullets) >= 3 then
         return
     end
-
-    for y = 1, 4, 1 do
-        for x = 1, 10, 1 do 
-            -- The chance of any alien to shoot a bullet increases as the number of aliens decreases
-            -- otherwise as the number of aliens goes down there would be less bullets shooted and the game would get easier
-            local shoot_prob = math.random(50 - self.aliensAlive) 
-            -- Shoot the bullet from the position of a random living alien           
-            -- The likelihood that no alien shoots a bullet is equal to (9.8/shoot_prob)**self.aliensAlive            
-            local alien = self.aliens[y][x]
-            if alien.alive and (shoot_prob > 9.9) then
-                -- Once the bullet is created end the loop
-                return
-                table.insert(self.bullets, Bullet(alien.renderX + (alien.width/2), alien.renderY, "DOWN"))                                    
-            end
-        end
+    local shooter = self.aliens[math.random(1,4)][math.random(1,10)]
+    if shooter.alive then
+        table.insert(self.bullets, Bullet(shooter.renderX + (shooter.width/2), shooter.renderY, "DOWN"))
     end
-
 end
 
 function AlienSquad:render()

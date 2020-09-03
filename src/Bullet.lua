@@ -12,9 +12,9 @@ end
 function Bullet:update(dt)
 
     if self.direction == "UP" then
-        self.y = self.y + BULLET_SPEED * dt
+        self.y = self.y + BULLET_UP_SPEED * dt
     else
-        self.y = self.y - BULLET_SPEED * dt
+        self.y = self.y + BULLET_DOWN_SPEED * dt
     end
 
     --Check if the bullet went out of the screen
