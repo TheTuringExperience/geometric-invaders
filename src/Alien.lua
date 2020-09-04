@@ -1,66 +1,30 @@
 Alien = Class{}
 
 function Alien:init(x, y)
-    self.gridX = x
-    self.gridY = y
-
     self.width = 20
     self.height = 15
 
+    -- Multiply the alien's position by it's width and height and add an offset
+    self.x = (x * self.width) + ALIEN_X_OFFSET
+    self.y = (y * self.height) + ALIEN_Y_OFFSET
+
     self.alive = true
-
-    self.direction = 'right'
-    self.goingDown = false
-    self.steps = 0
-
-    self:updateRenderPos(self.gridX, self.gridY)
+   
 end
 
-function Alien:updateRenderPos(x, y)
-    self.renderX = x * self.width
-    self.renderY = y * self.height
-end
-
-function Alien:update(dt)
-    local numSteps = 1
-    if self.goingDown then
-        self.gridY = self.gridY + 1 * dt
-        self:updateRenderPos(self.gridX, self.gridY)
-        self.steps = self.steps + 1 * dt
-        if self.steps >= 1 then
-            self.goingDown = false
-            self.steps = 0            
-        end
-    elseif self.direction == 'right' then
-        self.gridX = self.gridX + 1 * dt
-        self:updateRenderPos(self.gridX, self.gridY)
-        self.steps = self.steps + 1 * dt
-        if self.steps >= numSteps then
-            self.direction = 'left'
-            self.goingDown = true
-            self.steps = 0
-        end
-    elseif self.direction == 'left' then
-        self.gridX = self.gridX - 1 * dt
-        self:updateRenderPos(self.gridX, self.gridY)
-        self.steps = self.steps + 1 * dt
-        if self.steps >= numSteps then
-            self.direction = 'right'
-            self.goingDown = true
-            self.steps = 0
-        end          
-    end
-
+function Alien:update(dt, dx, dy)
+    self.x = self.x + (dx * dt)
+    self.y = self.y + (dy * dt)
 end
 
 function Alien:collides(bullet)
-    return not (self.renderX + self.width < bullet.x or self.renderX > bullet.x + bullet.width or
-                self.renderY + self.height < bullet.y or self.renderY > bullet.y + bullet.height)
+    return not (self.x + self.width < bullet.x or self.x > bullet.x + bullet.width or
+                self.y + self.height < bullet.y or self.y > bullet.y + bullet.height)
 end
 
 function Alien:render()
     if self.alive then
         love.graphics.setColor(0, 0, 255, 255)
-        love.graphics.rectangle('fill', self.renderX, self.renderY, self.width - 5, self.height -5)
+        love.graphics.rectangle('fill', self.x, self.y, self.width - 5, self.height -5)
     end
 end
