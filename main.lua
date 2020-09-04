@@ -12,8 +12,8 @@ function love.load()
     -- seed the RNG so that calls to random are always random
     math.randomseed(os.time())
     
-    Font = love.graphics.newFont('font.ttf', 32)
-
+    BigFont = love.graphics.newFont('fonts/font.ttf', 32)
+    SmallFont = love.graphics.newFont('fonts/font.ttf', 16)
     -- initialize our virtual resolution, which will be rendered within our
     -- actual window no matter its dimensions
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {

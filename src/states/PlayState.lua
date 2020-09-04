@@ -18,7 +18,7 @@ function PlayState:update(dt)
         --If the bullet collided against a alien delete it and give the player 10 points
         if self.alienSquad:checkCollision(self.tank.bullet) then
             self.tank.bullet = nil
-            self.score = self.score + 1
+            self.score = self.score + 100
         end
     end
 
@@ -43,8 +43,9 @@ end
 
 function PlayState:render()
     --Display score
-    love.graphics.setColor(255, 255, 255)    
-    love.graphics.printf(tostring(self.score), 0, 0, 20, 'center')
+    love.graphics.setColor(0, 0, 255)
+    love.graphics.setFont(SmallFont, 2)
+    love.graphics.printf(tostring(self.score), 0, 10, 40, 'left')
 
     self.tank:render()    
     self.alienSquad:render()    

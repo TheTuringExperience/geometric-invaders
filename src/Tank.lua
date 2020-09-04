@@ -54,6 +54,7 @@ function Tank:render()
     end
 
     --Display the amount of lifes the tank has
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.setFont(SmallFont)
     love.graphics.printf(tostring(self.lives), 0, VIRTUAL_HEIGHT - 30, 20, 'center')
 end

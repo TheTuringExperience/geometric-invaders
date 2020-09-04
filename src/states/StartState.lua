@@ -17,7 +17,7 @@ function StartState:update()
 end
 
 function StartState:render()
-    love.graphics.setFont(Font)
+    love.graphics.setFont(BigFont)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.printf("GEOMETRIC INVADERS", 0, VIRTUAL_HEIGHT/2 - 20, VIRTUAL_WIDTH, 'center')
 end
